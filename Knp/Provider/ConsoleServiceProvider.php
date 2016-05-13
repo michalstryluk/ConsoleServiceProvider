@@ -13,7 +13,7 @@ class ConsoleServiceProvider implements ServiceProviderInterface
 {
     public function register(Container $app)
     {
-        $app['console'] = $app->share(function() use ($app) {
+        $app['console'] = function() use ($app) {
             $application = new ConsoleApplication(
                 $app,
                 $app['console.project_directory'],
@@ -24,7 +24,7 @@ class ConsoleServiceProvider implements ServiceProviderInterface
             $app['dispatcher']->dispatch(ConsoleEvents::INIT, new ConsoleEvent($application));
 
             return $application;
-        });
+        };
     }
 
 }
